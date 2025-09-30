@@ -16,6 +16,13 @@ import bestSellerRoutes from "./routes/bestSellerRoute.js";
 
 dotenv.config();
 
+// Remove console logs in production
+if (process.env.NODE_ENV === "production") {
+  console.log = () => {};
+  console.warn = () => {};
+  console.error = () => {};
+}
+
 const app = express();
 const port = process.env.PORT || 5000;
 

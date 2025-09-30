@@ -1,22 +1,22 @@
 /* Customer Order History Responsive Styles */
 
 .order-history-container {
-    /* 1. Set background solid white */
-    background-color: white;
+  /* 1. Set background solid white */
+  background-color: white;
 
-    /* 2. Hentikan background gradasi yang datang dari elemen 'body' */
-    background-image: none;
+  /* 2. Hentikan background gradasi yang datang dari elemen 'body' */
+  background-image: none;
 
-    /* 3. PENTING: Paksa container mengisi minimal tinggi seluruh viewport. */
-    /* Ini akan memastikan background putih menutupi gradasi di bawahnya. */
+  /* 3. PENTING: Paksa container mengisi minimal tinggi seluruh viewport. */
+  /* Ini akan memastikan background putih menutupi gradasi di bawahnya. */
 
-    min-height: calc(100vh - 60px - 100px);
+  min-height: calc(100vh - 60px - 100px);
 
-    /* Anda mungkin ingin menyesuaikan padding top agar konten tidak tertutup Navbar */
-    padding: 30px 100px;
+  /* Anda mungkin ingin menyesuaikan padding top agar konten tidak tertutup Navbar */
+  padding: 30px 100px;
 
-    /* Properti lain (misalnya max-width, margin-x auto, dll.) */
-    /* ... */
+  /* Properti lain (misalnya max-width, margin-x auto, dll.) */
+  /* ... */
 }
 
 .order-history-title {
@@ -308,54 +308,54 @@
 
 /* Pagination Styles */
 .order-pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .order-pagination .pagination-left label {
-    font-size: 0.9rem;
-    color: #333;
+  font-size: 0.9rem;
+  color: #333;
 }
 
 .order-pagination .pagination-left select {
-    margin: 0 8px;
-    padding: 4px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
+  margin: 0 8px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
 }
 
 .order-pagination .pagination-buttons {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  gap: 6px;
 }
 
 .order-pagination .pagination-buttons button {
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    color: #333;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .order-pagination .pagination-buttons button:hover:not(:disabled) {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .order-pagination .pagination-buttons button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .order-pagination .pagination-buttons button.active {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-    color: #fff;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  color: #fff;
 }
 
 /* Responsive Design */

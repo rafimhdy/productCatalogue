@@ -315,7 +315,7 @@ const OrderListAdmin = () => {
     <div className="order-management">
       {/* Header with stats */}
       <div className="order-header">
-        <h2 style={{ color: "whitesmoke" }}>
+        <h2>
           <ShoppingCart size={28} />
           Manajemen Pesanan
         </h2>
@@ -480,6 +480,7 @@ const OrderListAdmin = () => {
                                 src={`${API_BASE}/uploads/${item.product_image}`}
                                 alt={item.product_name}
                                 className="item-image"
+                                loading="lazy"
                               />
                             ) : (
                               <div className="item-image-placeholder">
