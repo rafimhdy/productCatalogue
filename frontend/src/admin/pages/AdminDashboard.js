@@ -78,9 +78,12 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://31.97.109.187:5000/api/orders/admin/all", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        "http://31.97.109.187:5000/api/orders/admin/all",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setOrders(items);
@@ -92,9 +95,12 @@ const AdminDashboard = () => {
   const fetchCustomers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://31.97.109.187:5000/api/customers/admin/all", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        "http://31.97.109.187:5000/api/customers/admin/all",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setCustomers(items);
