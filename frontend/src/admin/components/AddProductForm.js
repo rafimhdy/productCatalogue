@@ -16,6 +16,8 @@ import {
   Link as LinkIcon,
 } from "lucide-react";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const AddProductForm = ({ onProductAdded, categories }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -126,7 +128,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
 
     try {
       const response = await axios.post(
-        "http://31.97.109.187:5000/api/products/upload-image",
+        `${API_BASE}/api/products/upload-image`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -190,7 +192,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
     };
 
     try {
-      await axios.post("http://31.97.109.187:5000/api/products", productData);
+      await axios.post(`${API_BASE}/api/products`, productData);
 
       // Reset form
       setFormData({
@@ -475,7 +477,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
                     {imageUrl && (
                       <div className="image-preview">
                         <img
-                          src={`http://31.97.109.187:5000/uploads/${imageUrl}`}
+                          src={`${API_BASE}/uploads/${imageUrl}`}
                           alt="Preview"
                           className="preview-image"
                         />

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const AddCategoryForm = ({ onCategoryAdded }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -8,7 +10,7 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://31.97.109.187:5000/api/categories", {
+      await axios.post(`${API_BASE}/api/categories`, {
         name,
         description,
       });

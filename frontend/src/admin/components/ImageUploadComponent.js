@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const ImageUploadComponent = ({ onImageUploaded }) => {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -27,16 +29,13 @@ const ImageUploadComponent = ({ onImageUploaded }) => {
     formData.append("image", selectedFile);
 
     try {
-      const response = await fetch(
-        "http://31.97.109.187:5000/api/products/upload-image",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE}/api/products/upload-image`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Upload failed");

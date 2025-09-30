@@ -5,6 +5,8 @@ import { useNotification } from "./NotificationContext";
 import { AuthContext } from "../../AuthContext";
 import "./css/ProductCard.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const ProductCard = ({
   product = {
     id: 1,
@@ -44,7 +46,7 @@ const ProductCard = ({
       if (!token) return;
 
       const response = await fetch(
-        `http://31.97.109.187:5000/api/wishlist/check/${product.id}`,
+        `${API_BASE}/api/wishlist/check/${product.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,8 +77,8 @@ const ProductCard = ({
 
     try {
       const url = isInWishlist
-        ? `http://31.97.109.187:5000/api/wishlist/remove/${product.id}`
-        : `http://31.97.109.187:5000/api/wishlist/add`;
+        ? `${API_BASE}/api/wishlist/remove/${product.id}`
+        : `${API_BASE}/api/wishlist/add`;
 
       const method = isInWishlist ? "DELETE" : "POST";
       const body = isInWishlist
@@ -122,7 +124,7 @@ const ProductCard = ({
     }
 
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/cart", {
+      const res = await fetch(`${API_BASE}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -182,7 +184,7 @@ const ProductCard = ({
         <img
           src={
             product.image
-              ? `http://31.97.109.187:5000/uploads/${product.image}`
+              ? `${API_BASE}/uploads/${product.image}`
               : product.image_url
           }
           alt={product.name}

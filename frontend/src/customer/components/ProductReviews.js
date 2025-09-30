@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Star, StarIcon } from "lucide-react";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const ProductReviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewStats, setReviewStats] = useState(null);
@@ -28,7 +30,7 @@ const ProductReviews = ({ productId }) => {
   const fetchReviews = async () => {
     try {
       const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/product/${productId}`
+        `${API_BASE}/api/reviews/product/${productId}`
       );
       const data = await response.json();
       setReviews(data || []);
@@ -40,7 +42,7 @@ const ProductReviews = ({ productId }) => {
   const fetchReviewStats = async () => {
     try {
       const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/summary/${productId}`
+        `${API_BASE}/api/reviews/summary/${productId}`
       );
       const data = await response.json();
       // Normalize shape: ensure averageRating, totalReviews, ratingDistribution present
@@ -101,7 +103,7 @@ const ProductReviews = ({ productId }) => {
     if (!token) return;
 
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/orders", {
+      const response = await fetch(`${API_BASE}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -124,7 +126,7 @@ const ProductReviews = ({ productId }) => {
     }
 
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

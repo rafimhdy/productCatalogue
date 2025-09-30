@@ -16,6 +16,9 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
     setImageLoading(false);
   };
 
+  const API_BASE =
+    process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
   // Process image URL to handle both external URLs and local uploaded files
   const getProcessedImageUrl = (url) => {
     if (!url) return null;
@@ -27,12 +30,12 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
 
     // If it's a local file path, prepend the server URL
     if (url.startsWith("/uploads/")) {
-      return `http://31.97.109.187:5000${url}`;
+      return `${API_BASE}${url}`;
     }
 
     // If it's just a filename, assume it's in uploads
     if (!url.includes("/") && !url.startsWith("http")) {
-      return `http://31.97.109.187:5000/uploads/${url}`;
+      return `${API_BASE}/uploads/${url}`;
     }
 
     return url;
@@ -205,6 +208,8 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
 };
 
 const CartPage = () => {
+  const API_BASE =
+    process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -242,7 +247,7 @@ const CartPage = () => {
   const fetchCart = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/cart", {
+      const res = await fetch(`${API_BASE}/api/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -280,7 +285,7 @@ const CartPage = () => {
   const handleUpdateQuantity = async (itemId, quantity) => {
     if (quantity < 1) return;
     try {
-      const res = await fetch(`http://31.97.109.187:5000/api/cart`, {
+      const res = await fetch(`${API_BASE}/api/cart`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -311,7 +316,7 @@ const CartPage = () => {
     if (!window.confirm("Hapus item dari keranjang?")) return;
 
     try {
-      const res = await fetch(`http://31.97.109.187:5000/api/cart`, {
+      const res = await fetch(`${API_BASE}/api/cart`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -345,7 +350,7 @@ const CartPage = () => {
     }
 
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/orders/checkout", {
+      const res = await fetch(`${API_BASE}/api/orders/checkout`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

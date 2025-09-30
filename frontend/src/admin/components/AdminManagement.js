@@ -3,6 +3,8 @@ import axios from "axios";
 import "./css/AdminManagement.css";
 import { Plus, Edit, Trash, X } from "lucide-react";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://31.97.109.187:5000/api/admin/all", {
+      const response = await fetch(`${API_BASE}/api/admin/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -59,7 +61,7 @@ const AdminManagement = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://31.97.109.187:5000/api/admin/create", formData, {
+      await axios.post(`${API_BASE}/api/admin/create`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setShowAddModal(false);
@@ -76,13 +78,9 @@ const AdminManagement = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.put(
-        `http://31.97.109.187:5000/api/admin/${selectedAdmin.id}`,
-        formData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await axios.put(`${API_BASE}/api/admin/${selectedAdmin.id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setShowEditModal(false);
       setSelectedAdmin(null);
       setFormData({ name: "", email: "", password: "" });
@@ -99,7 +97,7 @@ const AdminManagement = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://31.97.109.187:5000/api/admin/${adminId}`, {
+      await axios.delete(`${API_BASE}/api/admin/${adminId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAdmins();

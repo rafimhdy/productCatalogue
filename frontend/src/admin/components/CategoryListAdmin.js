@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const CategoryListAdmin = () => {
   const [categories, setCategories] = useState([]);
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://31.97.109.187:5000/api/categories");
+      const res = await axios.get(`${API_BASE}/api/categories`);
       setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -20,7 +22,7 @@ const CategoryListAdmin = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Yakin mau hapus kategori?")) {
       try {
-        await axios.delete(`http://31.97.109.187:5000/api/categories/${id}`);
+        await axios.delete(`${API_BASE}/api/categories/${id}`);
         fetchCategories();
       } catch (err) {
         console.error(err);

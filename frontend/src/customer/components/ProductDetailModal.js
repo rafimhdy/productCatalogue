@@ -11,6 +11,8 @@ import {
   ShoppingCart,
 } from "lucide-react";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
@@ -60,7 +62,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
   useEffect(() => {
     if (!product?.order_id) {
       // fetch eligible orders when modal opens for direct product view
-      fetch(`http://31.97.109.187:5000/api/reviews/can-review/${product.id}`, {
+      fetch(`${API_BASE}/api/reviews/can-review/${product.id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
         .then((res) => res.json())
@@ -90,7 +92,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
   const fetchProductReviews = async () => {
     try {
       const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/product/${product.id}`
+        `${API_BASE}/api/reviews/product/${product.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -181,7 +183,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
           src={
             product.image_url.startsWith("http")
               ? product.image_url
-              : `http://31.97.109.187:5000/uploads/${product.image_url}`
+              : `${API_BASE}/uploads/${product.image_url}`
           }
           alt={product.name}
           className="main-image"

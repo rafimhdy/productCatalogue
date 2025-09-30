@@ -5,6 +5,8 @@ import "./css/BestSellers.css";
 import { Star, ShoppingCart, Award } from "lucide-react";
 
 const BestSellers = () => {
+  const API_BASE =
+    process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,9 +22,7 @@ const BestSellers = () => {
 
   const fetchBestSellers = async () => {
     try {
-      const response = await fetch(
-        "http://31.97.109.187:5000/api/best-sellers?limit=3"
-      ); // Only fetch 3 products
+      const response = await fetch(`${API_BASE}/api/best-sellers?limit=3`); // Only fetch 3 products
       if (response.ok) {
         const data = await response.json();
         setBestSellers(data || []);
@@ -57,7 +57,7 @@ const BestSellers = () => {
       return false;
     }
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const BestSellers = () => {
     }
     try {
       setAddingToCartId(product.id);
-      const res = await fetch("http://31.97.109.187:5000/api/cart", {
+      const res = await fetch(`${API_BASE}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ const BestSellers = () => {
               product.image_url
                 ? product.image_url.startsWith("http")
                   ? product.image_url
-                  : `http://31.97.109.187:5000/uploads/${product.image_url}`
+                  : `${API_BASE}/uploads/${product.image_url}`
                 : "/placeholder-product.jpg"
             }
             alt={product.name}

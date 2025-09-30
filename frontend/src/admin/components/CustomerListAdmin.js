@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import "./css/CustomerAdmin.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const CustomerListAdmin = () => {
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
@@ -73,12 +75,9 @@ const CustomerListAdmin = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No authentication token found");
 
-      const response = await fetch(
-        "http://31.97.109.187:5000/api/customers/admin/all",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_BASE}/api/customers/admin/all`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -101,7 +100,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://31.97.109.187:5000/api/orders/admin/customer/${customerId}`,
+        `${API_BASE}/api/orders/admin/customer/${customerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -125,7 +124,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://31.97.109.187:5000/api/customers/admin/${customerId}/details`,
+        `${API_BASE}/api/customers/admin/${customerId}/details`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -148,7 +147,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://31.97.109.187:5000/api/customers/admin/${customerId}/login-history`,
+        `${API_BASE}/api/customers/admin/${customerId}/login-history`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

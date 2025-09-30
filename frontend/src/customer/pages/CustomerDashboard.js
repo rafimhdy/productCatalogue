@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import "./css/CustomerDashboard.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const CustomerDashboard = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -76,7 +78,7 @@ const CustomerDashboard = () => {
 
       // Fetch customer data
       const customerResponse = await fetch(
-        "http://31.97.109.187:5000/api/customers/profile",
+        `${API_BASE}/api/customers/profile`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -95,21 +97,16 @@ const CustomerDashboard = () => {
       }
 
       // Fetch categories
-      const categoriesResponse = await fetch(
-        "http://31.97.109.187:5000/api/categories"
-      );
+      const categoriesResponse = await fetch(`${API_BASE}/api/categories`);
       if (categoriesResponse.ok) {
         const categoriesData = await categoriesResponse.json();
         setCategories(categoriesData);
       }
 
       // Fetch wishlist
-      const wishlistResponse = await fetch(
-        "http://31.97.109.187:5000/api/wishlist",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const wishlistResponse = await fetch(`${API_BASE}/api/wishlist`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (wishlistResponse.ok) {
         const wishlistData = await wishlistResponse.json();
         setWishlist(wishlistData);
@@ -126,17 +123,14 @@ const CustomerDashboard = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        "http://31.97.109.187:5000/api/customers/profile",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(profileForm),
-        }
-      );
+      const response = await fetch(`${API_BASE}/api/customers/profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(profileForm),
+      });
 
       if (response.ok) {
         setSuccessMessage("Profil berhasil diperbarui!");
@@ -160,7 +154,7 @@ const CustomerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://31.97.109.187:5000/api/customers/change-password",
+        `${API_BASE}/api/customers/change-password`,
         {
           method: "PUT",
           headers: {
@@ -193,13 +187,10 @@ const CustomerDashboard = () => {
   const handleWishlistRemove = async (productId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `http://31.97.109.187:5000/api/wishlist/${productId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch(`${API_BASE}/api/wishlist/${productId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       if (response.ok) {
         setSuccessMessage("Produk dihapus dari wishlist");
@@ -377,7 +368,7 @@ const CustomerDashboard = () => {
                   const imageUrl = item.image_url
                     ? item.image_url.startsWith("http")
                       ? item.image_url
-                      : `http://31.97.109.187:5000/uploads/${item.image_url}`
+                      : `${API_BASE}/uploads/${item.image_url}`
                     : "https://via.placeholder.com/300x200?text=No+Image";
                   const description =
                     item.description ||

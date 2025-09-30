@@ -5,6 +5,8 @@ import ProductDetailModal from "../components/ProductDetailModal";
 import { useNotification } from "../components/NotificationContext";
 import "./css/CustomerOrderHistory.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const CustomerOrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +37,7 @@ const CustomerOrderHistory = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/orders", {
+      const response = await fetch(`${API_BASE}/api/orders`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -61,16 +63,13 @@ const CustomerOrderHistory = () => {
 
     setCancellingId(orderId);
     try {
-      const res = await fetch(
-        `http://31.97.109.187:5000/api/orders/${orderId}/cancel`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}/cancel`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       const payload = await res.json();
       if (!res.ok) throw new Error(payload.message || "Failed to cancel order");
@@ -95,7 +94,7 @@ const CustomerOrderHistory = () => {
   const fetchOrderDetails = async (orderId) => {
     try {
       const response = await fetch(
-        `http://31.97.109.187:5000/api/orders/admin/${orderId}/items`,
+        `${API_BASE}/api/orders/admin/${orderId}/items`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -184,7 +183,7 @@ const CustomerOrderHistory = () => {
 
       console.log("Request body being sent:", requestBody);
 
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

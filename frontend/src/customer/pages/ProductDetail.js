@@ -7,6 +7,8 @@ import Footer from "../components/Footer";
 import StarRating from "../components/StarRating";
 import "./css/ProductDetail.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -33,7 +35,7 @@ const ProductDetail = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await fetch(`http://31.97.109.187:5000/api/products/${id}`);
+      const response = await fetch(`${API_BASE}/api/products/${id}`);
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
@@ -51,9 +53,7 @@ const ProductDetail = () => {
 
   const fetchProductReviews = async () => {
     try {
-      const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/product/${id}`
-      );
+      const response = await fetch(`${API_BASE}/api/reviews/product/${id}`);
       if (response.ok) {
         const data = await response.json();
         setReviews(data);
@@ -67,9 +67,7 @@ const ProductDetail = () => {
 
   const fetchRatingSummary = async () => {
     try {
-      const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/summary/${id}`
-      );
+      const response = await fetch(`${API_BASE}/api/reviews/summary/${id}`);
       if (response.ok) {
         const data = await response.json();
         setRatingSummary(data);
@@ -88,7 +86,7 @@ const ProductDetail = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://31.97.109.187:5000/api/cart", {
+      const response = await fetch(`${API_BASE}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
 import "../../admin/pages/css/CustomAuth.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const CustomerLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +19,7 @@ const CustomerLogin = () => {
     setError("");
 
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/customers/login", {
+      const res = await fetch(`${API_BASE}/api/customers/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

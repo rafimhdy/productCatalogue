@@ -3,6 +3,8 @@ import { AuthContext } from "../../AuthContext";
 import { useNotification } from "./NotificationContext";
 import "./css/StarRating.css";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const StarRating = ({ productId, onReviewSubmitted }) => {
   const { user } = useContext(AuthContext);
   const { notify } = useNotification();
@@ -25,7 +27,7 @@ const StarRating = ({ productId, onReviewSubmitted }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://31.97.109.187:5000/api/reviews/can-review/${productId}`,
+        `${API_BASE}/api/reviews/can-review/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -71,7 +73,7 @@ const StarRating = ({ productId, onReviewSubmitted }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

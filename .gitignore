@@ -3,7 +3,9 @@ node_modules/
 
 # Environment variables
 backend/.env
-frontend/.env # Jika frontend Anda punya .env terpisah
+frontend/.env
+frontend/.env.local
+frontend/.env.production
 
 # Build output
 frontend/build/ # Atau dist/ jika menggunakan Vite/Webpack lain

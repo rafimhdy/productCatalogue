@@ -7,6 +7,8 @@ import axios from "axios";
 const CLIENT_ID =
   "676687989871-fl87bs6jn6n2hha4c5arrdig6de61h7p.apps.googleusercontent.com";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,10 +62,9 @@ const Login = () => {
     if (!idToken) return setError("Google sign-in failed");
 
     try {
-      const res = await axios.post(
-        "http://31.97.109.187:5000/api/auth/google-login",
-        { idToken }
-      );
+      const res = await axios.post(`${API_BASE}/api/auth/google-login`, {
+        idToken,
+      });
       const data = res.data;
       const token = data.token || "";
       // store token and user info
@@ -87,7 +88,7 @@ const Login = () => {
 
     try {
       // Try admin login first
-      const adminRes = await fetch("http://31.97.109.187:5000/api/auth/login", {
+      const adminRes = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -107,14 +108,11 @@ const Login = () => {
       }
 
       // If not admin, try customer login
-      const customerRes = await fetch(
-        "http://31.97.109.187:5000/api/customers/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const customerRes = await fetch(`${API_BASE}/api/customers/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       const customerData = await customerRes.json();
 

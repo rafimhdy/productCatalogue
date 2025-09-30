@@ -8,6 +8,8 @@ import ProductDetailModal from "./ProductDetailModal"; // Import modal
 import { useNotification } from "./NotificationContext"; // Import notifikasi
 import "./css/PageProductList.css"; // <-- CSS baru untuk Grid
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const PageProductList = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -23,7 +25,7 @@ const PageProductList = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://31.97.109.187:5000/api/products");
+      const res = await axios.get(`${API_BASE}/api/products`);
       setProducts(res.data);
       setFilteredProducts(res.data);
       setLoading(false);
@@ -35,7 +37,7 @@ const PageProductList = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://31.97.109.187:5000/api/categories");
+      const res = await axios.get(`${API_BASE}/api/categories`);
       setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -67,7 +69,7 @@ const PageProductList = () => {
     console.log("PageProductList sending review data:", reviewData);
 
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

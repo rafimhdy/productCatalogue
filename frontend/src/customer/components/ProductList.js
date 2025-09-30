@@ -7,6 +7,8 @@ import { useNotification } from "./NotificationContext";
 import "./css/ProductList.css";
 import { rescanReveal } from "../../scrollReveal"; // ensure dynamically loaded cards get revealed
 
+import "swiper/css";
+
 // Import Swiper React components
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react"; // <-- Import useSwiper
 import { ChevronLeft, ChevronRight } from "lucide-react"; // <-- Import Ikon Lucide
@@ -18,6 +20,8 @@ import "swiper/css/pagination";
 
 // Import required modules
 import { Navigation, Scrollbar, A11y } from "swiper/modules";
+
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
 
 // --- Komponen Panah Kustom ---
 const CustomSwiperControls = () => {
@@ -60,7 +64,7 @@ const ProductList = ({ showSearch = false }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://31.97.109.187:5000/api/products");
+      const res = await axios.get(`${API_BASE}/api/products`);
       setProducts(res.data);
       setFilteredProducts(res.data);
       setLoading(false);
@@ -80,7 +84,7 @@ const ProductList = ({ showSearch = false }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://31.97.109.187:5000/api/categories");
+      const res = await axios.get(`${API_BASE}/api/categories`);
       setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -144,7 +148,7 @@ const ProductList = ({ showSearch = false }) => {
       return false;
     }
     try {
-      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
+      const response = await fetch(`${API_BASE}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

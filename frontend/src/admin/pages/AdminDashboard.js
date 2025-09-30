@@ -34,6 +34,8 @@ import { Navbar } from "react-bootstrap";
 
 const DashboardCharts = lazy(() => import("../components/DashboardCharts"));
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const AdminDashboard = () => {
   const [refreshProducts, setRefreshProducts] = useState(false);
   const [refreshCategories, setRefreshCategories] = useState(false);
@@ -66,7 +68,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/products");
+      const res = await fetch(`${API_BASE}/api/products`);
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setProducts(items);
@@ -78,12 +80,9 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        "http://31.97.109.187:5000/api/orders/admin/all",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/orders/admin/all`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setOrders(items);
@@ -95,12 +94,9 @@ const AdminDashboard = () => {
   const fetchCustomers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        "http://31.97.109.187:5000/api/customers/admin/all",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const res = await fetch(`${API_BASE}/api/customers/admin/all`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setCustomers(items);
@@ -111,7 +107,7 @@ const AdminDashboard = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://31.97.109.187:5000/api/categories");
+      const res = await fetch(`${API_BASE}/api/categories`);
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setCategories(items);

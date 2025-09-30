@@ -7,6 +7,8 @@ import { AuthContext } from "../../AuthContext";
 const CLIENT_ID =
   "676687989871-fl87bs6jn6n2hha4c5arrdig6de61h7p.apps.googleusercontent.com";
 
+const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
+
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -59,10 +61,9 @@ const Register = () => {
     if (!idToken) return setError("Google sign-in failed");
 
     try {
-      const res = await axios.post(
-        "http://31.97.109.187:5000/api/auth/google-login",
-        { idToken }
-      );
+      const res = await axios.post(`${API_BASE}/api/auth/google-login`, {
+        idToken,
+      });
       const data = res.data;
       const token = data.token || "";
       // store token and user info
@@ -85,7 +86,7 @@ const Register = () => {
     setError("");
 
     try {
-      await axios.post("http://31.97.109.187:5000/api/customers/register", {
+      await axios.post(`${API_BASE}/api/customers/register`, {
         name,
         email,
         password,

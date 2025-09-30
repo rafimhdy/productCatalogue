@@ -18,7 +18,10 @@ import "./css/ProductCard.css";
 import "./css/ProductForm.css";
 
 // Konstanta base URL API (bisa diubah jika perlu di satu tempat)
-const API_BASE = "http://31.97.109.187:5000/api";
+const API_BASE = process.env.REACT_APP_API_BASE
+  ? `${process.env.REACT_APP_API_BASE}/api`
+  : "http://31.97.109.187:5000/api";
+const BASE_URL = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
 
 const ProductListAdmin = () => {
   // State utama
@@ -282,7 +285,7 @@ const ProductListAdmin = () => {
             const imageSrc = product.image_url
               ? product.image_url.startsWith("http")
                 ? product.image_url
-                : `http://31.97.109.187:5000/uploads/${product.image_url}`
+                : `${BASE_URL}/uploads/${product.image_url}`
               : "/placeholder-product.jpg";
             return (
               <div key={product.id} className="product-card">
@@ -483,7 +486,7 @@ const ProductListAdmin = () => {
                           src={
                             editForm.image.startsWith("http")
                               ? editForm.image
-                              : `http://31.97.109.187:5000/uploads/${editForm.image}`
+                              : `${BASE_URL}/uploads/${editForm.image}`
                           }
                           alt="Preview"
                           className="image-preview"
