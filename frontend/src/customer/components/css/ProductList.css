@@ -1,0 +1,81 @@
+/* ================================================= */
+/* SWIPER CONTAINER WRAPPER (Dipertahankan)          */
+/* ================================================= */
+.product-swiper-container {
+    position: relative;
+    /* Padding dikurangi agar tombol lebih dekat ke tepi */
+    padding: 0 10px;
+}
+
+/* Sembunyikan navigasi bawaan Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+    display: none !important;
+}
+
+/* ================================================= */
+/* CUSTOM SWIPER NAVIGATION (Ikon Lucide)            */
+/* ================================================= */
+
+/* Container Tombol Kustom (Bertanggung Jawab atas Posisi) */
+.custom-swiper-navigation {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px; /* Ruang di tepi */
+    z-index: 10;
+
+    /* KUNCI MINIMALIS: Sembunyikan Navigasi secara default */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Munculkan Navigasi Kustom saat hover di area Swiper */
+.product-swiper-container:hover .custom-swiper-navigation {
+    opacity: 1;
+}
+
+/* Styling Tombol Kustom (Minimalis, Bulat, Transparan) */
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+    /* Desain: Bulat, Ikon Gelap, Semi-Transparan */
+    background-color: rgba(255, 255, 255, 0.85); /* Background hampir solid */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: #1a1a1a;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Bulat Sempurna */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+    background-color: #007bff; /* Warna aksen saat hover */
+    color: white; /* Ikon menjadi putih */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    transform: scale(1.05);
+}
+
+
+/* ================================================= */
+/* MEDIA QUERY: RESPONSIVE NAVIGASI                  */
+/* ================================================= */
+
+@media (max-width: 1024px) {
+    .product-swiper-container {
+        padding: 0; /* Hapus padding agar slider mengambil lebar penuh di mobile */
+    }
+
+    /* Sembunyikan navigasi di mobile (hanya swipe) */
+    .custom-swiper-navigation {
+        display: none;
+    }
+}

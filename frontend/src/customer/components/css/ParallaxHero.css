@@ -1,0 +1,87 @@
+/* filepath: frontend/src/customer/components/css/ParallaxHero.css */
+.parallax-hero {
+  position: relative;
+  padding-top: 120px; /* avoid navbar overlap */
+  min-height: 85vh; /* sedikit lebih tinggi */
+  width: 100%;
+  overflow: visible; /* allow text descenders to show */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.parallax-hero::after { /* bottom fade into next section */
+  display: none;
+}
+.parallax-hero__bg-gradient {
+  position: absolute;
+  inset: 0;
+  /*background: linear-gradient(135deg, rgba(255,255,255,0.6), rgba(255,255,255,0));*/
+  pointer-events: none;
+  z-index: 1;
+}
+.parallax-hero__overlay {
+    position:absolute;
+    inset:0; pointer-events:none;
+    /*box-shadow: inset 0 0 120px rgba(0,0,0,0.05);*/
+}
+.parallax-layer {
+    position: absolute;
+    inset:0;
+}
+
+.blob {
+    position:absolute;
+    filter: blur(40px);
+    opacity:0.5;
+    border-radius:50%;
+}
+
+.blob-one {
+    width:480px;
+    height:480px;
+    background: linear-gradient(135deg,#a5b4fc,#818cf8);
+    top:-80px;
+    left:-120px;
+    animation: pulse 10s ease-in-out infinite;
+}
+.blob-two { width:380px; height:380px; background: linear-gradient(135deg,#fcd34d,#fbbf24); bottom:-120px; right:-100px; animation: pulse 12s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.15);} }
+.floating-text { position:relative; z-index:5; text-align:center; padding:0 20px 120px; overflow: visible; }
+.hero-title { font-size: clamp(2.5rem, 6vw, 4rem); line-height:1.28; display:inline-block; }
+.hero-subtitle { margin-top:18px; font-size: clamp(1rem, 2vw, 1.25rem); color:#475569; line-height:1.8; }
+.hero-cta { margin-top:32px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn-hero-primary, .btn-hero-secondary { text-decoration:none; padding:14px 28px; border-radius:40px; font-weight:600; font-size:0.95rem; letter-spacing:0.5px; transition:.3s; }
+.btn-hero-primary { background: linear-gradient(135deg,#6366f1,#4f46e5); color:#fff; box-shadow:0 8px 24px rgba(99,102,241,.3); }
+.btn-hero-primary:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(99,102,241,.4); }
+.btn-hero-secondary { background: rgba(255,255,255,0.7); backdrop-filter: blur(8px); color:#1e293b; border:1px solid rgba(148,163,184,0.4); }
+.btn-hero-secondary:hover { background:#fff; }
+/* Reveal base */
+.reveal { opacity:0; transform: translateY(30px); transition: all 0.8s cubic-bezier(.19,1,.22,1); }
+.reveal.visible { opacity:1; transform: translateY(0); }
+.fade-up { }
+.reveal[style*="--delay"] { transition-delay: var(--delay, 0s); }
+/* Fries layering */
+.fries-layer { pointer-events:none; }
+.fries { display:block; object-fit:contain; filter: drop-shadow(0 12px 22px rgba(0,0,0,0.18)); opacity:.85; }
+.fries-back-img { width:320px; max-width:22vw; position:absolute; top:4%; left:4%; transform: rotate(-12deg); }
+.fries-mid-img { width:260px; max-width:18vw; position:absolute; bottom:6%; right:6%; transform: rotate(8deg); }
+.fries-front-img { width:160px; max-width:12vw; position:absolute; top:58%; right:26%; transform: rotate(4deg); animation: floatFries 7s ease-in-out infinite; }
+@keyframes floatFries { 0%,100% { transform: translateY(0) rotate(4deg);} 50% { transform: translateY(-18px) rotate(6deg);} }
+/* Layer stacking (text above decorative) */
+.layer-back { z-index: 0; }
+.parallax-hero__overlay { z-index: 1; }
+.layer-mid { z-index: 2; }
+.fries-layer { z-index:3; }
+.floating-text { z-index:4; }
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .blob, .fries, .parallax-layer, .floating-text, .reveal { animation: none !important; transition: none !important; }
+  .fries-front-img, .fries-mid-img, .fries-back-img { transform: none !important; }
+}
+/* Utility for full homepage background */
+.home-page-root { background: radial-gradient(circle at 20% 20%, #f1f5ff, #dde7f3 55%, #d2dbe5); }
+/* make sure fries front doesn't overlay text on small screens */
+@media (max-width: 900px) {
+  .fries-front-img { display: none; }
+  .fries-mid-img { opacity: 0.85; }
+}

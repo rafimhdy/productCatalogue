@@ -1,0 +1,66 @@
+/* Hapus styling lama yang konflik dan tidak terpakai */
+.hero-progress-wrapper {
+    /* Hapus width: 140px; dan background: rgba(255,255,255,0.2);
+       karena sudah diatur via style props di JSX. */
+    position: relative;
+    border-radius: 99999px;
+    border: 2px solid var(--hero-progress-border, rgba(255,255,255,0.1));
+    box-sizing: content-box;
+    overflow: hidden;
+    /* width: 140px; <-- DIHAPUS */
+    /* background: rgba(255,255,255,0.2); <-- DIHAPUS */
+    margin: 16px auto 0 auto;
+    display: block;
+}
+
+/* Biarkan styling hero-progress-bar-inner dan keyframes */
+.hero-progress-bar-inner {
+    height: 100%;
+    border-radius: 99999px;
+    transition: width 0.1s linear;
+}
+
+/* Styling Lama (sepertinya untuk efek loading/animasi, biarkan saja) */
+.hero-progress-padding-mask {
+    position: absolute;
+    inset: 0;
+    margin: 5px;
+    border-radius: 99999px;
+    overflow: hidden;
+}
+
+.hero-progress-slide {
+    position: absolute;
+    inset: 0;
+    margin: 0 auto;
+    width: 60%;
+    border-radius: 99999px;
+    background-color: var(--hero-progress-color, #fff);
+    animation: hero-cha-cha 2.5s infinite alternate ease-in-out;
+}
+
+@keyframes hero-cha-cha {
+    from {
+        transform: translateX(-60%);
+    }
+    to {
+        transform: translateX(60%);
+    }
+}
+
+/* ================================================= */
+/* MEDIA QUERY: PERBAIKAN LEBAR DI LAYAR KECIL       */
+/* ================================================= */
+@media (max-width: 600px) {
+    /* Untuk lebar di bawah 600px, kita pastikan ada sedikit padding di sisi layar */
+    .hero-progress-wrapper {
+        /* Lebar 90% dari viewport, sehingga ada margin 5% di kiri dan kanan */
+        width: 90% !important;
+        max-width: none !important; /* Hapus batasan max-width desktop */
+        margin-left: 5vw !important;
+        margin-right: 5vw !important;
+
+        /* Tinggi mungkin perlu disesuaikan jika terlalu besar di HP */
+        /* height: 5px !important; */
+    }
+}

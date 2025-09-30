@@ -1,0 +1,26 @@
+.simple-star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star {
+  color: #ddd;
+  transition: color 0.2s ease;
+  cursor: default;
+}
+
+.star.filled {
+  color: #ffc107;
+}
+
+.star.interactive {
+  cursor: pointer;
+}
+
+.star.interactive:hover {
+  color: #ffb300;
+}
+
+.star.interactive:not(.filled):hover {
+  color: #ffb300;
+}

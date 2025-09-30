@@ -1,0 +1,38 @@
+.best-sellers-header {
+    padding: 50px 30px 0 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.best-sellers-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.best-sellers-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+    white-space: nowrap; /* Mencegah teks Best Sellers patah */
+}
+
+.best-sellers-content p {
+    font-size: 1rem;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Menyesuaikan tata letak untuk layar yang lebih kecil */
+@media (max-width: 768px) {
+    .best-sellers-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+}

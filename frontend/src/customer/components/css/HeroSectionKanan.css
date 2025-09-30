@@ -1,0 +1,43 @@
+/* frontend/src/customer/components/HeroSectionKanan.css */
+
+.hero-section-container {
+    display: flex;
+    justify-content: space-between; /* Untuk memberi jarak antara teks dan gambar */
+    align-items: center; /* Untuk menyejajarkan elemen secara vertikal */
+    padding: 50px 80px; /* Atur padding sesuai kebutuhan */
+}
+
+.hero-text-content {
+    flex: 1; /* Biar kolom teks fleksibel dan mengisi ruang */
+    padding-right: 50px; /* Beri jarak antara teks dan gambar */
+}
+
+.hero-text-content h1 {
+    font-size: 3em; /* Perbesar ukuran font agar menonjol */
+    font-weight: bold;
+}
+
+.hero-image-content {
+    flex: 1.5; /* Gambar bisa lebih lebar dari teks */
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px; /* Tambahkan sudut membulat pada gambar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tambahkan efek bayangan */
+}
+
+/* Untuk tampilan di layar lebih kecil (responsif) */
+@media (max-width: 768px) {
+    .hero-section-container {
+        flex-direction: column; /* Ubah layout menjadi vertikal */
+        padding: 30px;
+    }
+
+    .hero-text-content {
+        text-align: center;
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+}

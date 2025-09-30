@@ -1,0 +1,86 @@
+/* src/customer/components/css/PageProductList.css (Diperbarui) */
+
+.product-page-list-container {
+    padding: 0 20px; /* Hapus padding vertikal di sini */
+    max-width: 1280px; /* Lebar maksimum lebih besar */
+    margin: 0 auto;
+
+    /* Tambahkan space di atas untuk memisahkan filter dari header */
+    margin-top: 40px;
+}
+
+/* ================================================= */
+/* PRODUK GRID (4 Kolom Responsif)                   */
+/* ================================================= */
+.product-grid {
+    /* Kunci Responsif: Auto-fit untuk mengisi ruang kosong */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min lebar kartu lebih besar */
+    gap: 40px; /* Jarak yang lebih besar untuk white space */
+    margin-top: 40px; /* Jarak antara Filter dan Grid */
+    display: grid;
+}
+
+/* ================================================= */
+/* NOT FOUND & INFO STYLING (Lebih Soft)             */
+/* ================================================= */
+.product-not-found-message {
+    text-align: center;
+    padding: 80px 20px; /* Padding vertikal lebih besar */
+    background-color: #ffffff; /* Latar putih */
+    border-radius: 16px; /* Siku lebih tumpul */
+    border: 1px solid #f0f0f0; /* Border sangat halus */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Shadow super halus */
+    margin-top: 40px;
+}
+
+.product-not-found-message h3 {
+    color: #495057;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.product-not-found-message p {
+    color: #868e96;
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+.product-count-info {
+    margin-top: 40px;
+    text-align: center;
+    color: #868e96;
+    font-size: 0.9rem;
+    padding-bottom: 20px;
+}
+
+/* ================================================= */
+/* MEDIA QUERIES (Responsif)                         */
+/* ================================================= */
+
+@media (max-width: 1024px) {
+    /* Di layar laptop/desktop kecil, kurangi gap */
+    .product-grid {
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-page-list-container {
+        padding: 0 15px;
+        margin-top: 30px;
+    }
+
+    /* Di tablet, kolom produk minimal 2 */
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+    .product-grid {
+        /* Di HP, paksa menjadi 1 kolom yang besar */
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}

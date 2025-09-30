@@ -1,0 +1,324 @@
+.best-sellers-section {
+    padding: 60px 0;
+}
+
+.best-sellers-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    overflow: visible;
+    line-height: 1.08;
+}
+
+.section-header p {
+    color: #64748b;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.best-sellers-container {
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,254,0.8));
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.best-sellers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.best-seller-card {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.best-seller-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.rank-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    z-index: 2;
+    animation: float 3s ease-in-out infinite;
+    overflow: visible;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.product-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.best-seller-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,255,0.95));
+}
+
+.product-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-category {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0 0 12px 0;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.rating-text {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-left: 8px;
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #059669;
+    margin: 12px 0;
+}
+
+.product-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.add-to-cart-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Loading and Error States */
+.loading-state,
+.error-state,
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e2e8f0;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Trio Layout for Best Sellers */
+.best-sellers-trio {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 40px;
+    min-height: 560px; /* ensure space for staggered cards */
+}
+
+.best-sellers-trio.count-1 { min-height: 360px; }
+.best-sellers-trio.count-1 .best-seller-card { position:relative; width:340px; margin:0 auto; left:auto; right:auto; top:0; transform:none; }
+
+.best-sellers-trio.count-2 { min-height: 420px; }
+.best-sellers-trio.count-2 .best-seller-card { position:absolute; width:320px; top:40px; }
+.best-sellers-trio.count-2 .best-seller-card.position-one { left:50%; transform:translateX(-110%) scale(1.02); }
+.best-sellers-trio.count-2 .best-seller-card.position-two { left:50%; transform:translateX(10%); }
+
+.best-sellers-trio .best-seller-card {
+    width: 300px;
+    position: absolute;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.best-sellers-trio .best-seller-card.position-one {
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0) scale(1.05);
+    z-index: 3;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) translateY(0) scale(1.05) !important;
+}
+
+.best-sellers-trio .best-seller-card.position-two {
+    top: 180px;
+    left: 8%;
+    z-index: 2;
+}
+
+.best-sellers-trio .best-seller-card.position-three {
+    top: 240px;
+    right: 8%;
+    z-index: 2;
+}
+
+/* Subtle staggered float animations */
+.best-sellers-trio .best-seller-card.position-one { animation: float 6s ease-in-out infinite; }
+.best-sellers-trio .best-seller-card.position-two { animation: float 7s ease-in-out infinite; }
+.best-sellers-trio .best-seller-card.position-three { animation: float 5.5s ease-in-out infinite; }
+
+/* Adjust rank badge prominence for #1 */
+.best-sellers-trio .best-seller-card.position-one .rank-badge {
+    background: linear-gradient(135deg,#f59e0b,#d97706);
+    font-size: 1.4rem;
+    padding: 10px 20px;
+    box-shadow: 0 6px 18px rgba(245,158,11,0.35);
+}
+
+/* Override absolute layout for single best seller */
+.best-sellers-trio.count-1 .best-seller-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    width: 340px !important;
+}
+
+/* Responsive fallbacks */
+@media (max-width: 1100px) {
+    .best-sellers-trio .best-seller-card { width: 280px; }
+    .best-sellers-trio .best-seller-card.position-two { left: 2%; }
+    .best-sellers-trio .best-seller-card.position-three { right: 2%; }
+}
+
+@media (max-width: 900px) {
+    .best-sellers-trio {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: auto;
+        gap: 20px;
+        padding-top: 0;
+    }
+    .best-sellers-trio .best-seller-card { position: relative; transform: none !important; left: auto; right: auto; top: auto; }
+    .best-sellers-trio .best-seller-card.position-one { order: 1; }
+    .best-sellers-trio .best-seller-card.position-two { order: 2; }
+    .best-sellers-trio .best-seller-card.position-three { order: 3; }
+}
+
+@media (max-width: 640px) {
+    .best-sellers-trio { grid-template-columns: 1fr; }
+    .best-sellers-trio .best-seller-card { width: 100%; }
+}
+
+/* ensure headers don't clip descenders */
+.section-header h2 { overflow: visible; line-height: 1.08; }
+
+/* card inner for smoother float independent of tilt transform */
+.card-inner {
+    transition: transform 0.45s cubic-bezier(.22,.9,.35,1), box-shadow 0.3s;
+    will-change: transform;
+}
+
+/* subtle bob animation on inner element */
+@keyframes innerBob { 0% { transform: translateY(0);} 50% { transform: translateY(-6px);} 100% { transform: translateY(0);} }
+.card-inner { animation: innerBob 9s ease-in-out infinite; }
+.card-inner:hover { animation-play-state: paused; }
+
+/* Make product-info gradient slightly stronger */
+.best-seller-card .product-info { background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(247,249,255,0.95)); }
+
+/* make trio-n (1 or 2) layout use flex center */
+.best-sellers-trio.trio-n { display:flex; justify-content:center; align-items:flex-start; gap:28px; min-height: auto; padding-top: 20px; }
+
+/* ensure rank badge doesn't clip */
+.rank-badge { overflow: visible; }
+
+#best-sellers { scroll-margin-top: 90px; }
+
+.best-sellers-container {
+    /* Background ini yang menimpa dan memotong gradien hero */
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,254,0.8));
+    border-radius: 24px;
+    padding: 32px;
+    /* ... */
+}

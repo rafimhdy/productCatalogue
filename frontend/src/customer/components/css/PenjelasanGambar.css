@@ -1,0 +1,177 @@
+/* ================================================= */
+/* 1. CONTAINER & OVERLAY (Dibuat lebih ringkas)     */
+/* ================================================= */
+.penjelasan-container {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
+    url('https://images.pexels.com/photos/1907227/pexels-photo-1907227.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: #f0f0f0;
+    padding: 80px 20px; /* Padding dikurangi */
+    min-height: 60vh; /* Tinggi dikurangi */
+    display: flex;
+    align-items: center;
+}
+
+.penjelasan-content {
+    display: flex;
+    justify-content: space-between;
+
+    /* Perubahan Kunci 1: Gunakan align-items: center di sini */
+    /* Ini akan menyentrikan SEMUA item anak (kiri dan kanan) secara vertikal */
+    align-items: center;
+
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 80px;
+    min-height: 350px;
+}
+
+/* ================================================= */
+/* 2. KOLOM KIRI (Judul Utama)                       */
+/* ================================================= */
+.penjelasan-kiri {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+.penjelasan-kiri h1 {
+    font-size: 3.5rem; /* Ukuran font sedikit dikurangi */
+    font-weight: 800;
+    margin-bottom: 0; /* Hapus margin karena tidak ada subheading di bawahnya */
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+/* ================================================= */
+/* 3. KOLOM KANAN (Tagline & 2 Fitur)                */
+/* ================================================= */
+.penjelasan-kanan {
+    flex: 1;
+    min-width: 450px;
+    display: flex;
+    flex-direction: column;
+
+    /* Perubahan Kunci 2: Paksa kolom kanan kembali ke atas */
+    /* Agar daftar fiturnya tidak ikut ke tengah */
+    align-self: flex-start;
+
+    gap: 0;
+    padding-top: 0;
+
+}
+
+.penjelasan-tagline {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    opacity: 0.85;
+    margin-bottom: 30px; /* Jarak antara tagline dan fitur */
+}
+
+/* Container fitur baru (tanpa gap vertikal antar grup) */
+.fitur-group-minimal {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Styling Item Fitur (Minimalis) */
+.fitur-item {
+    display: block;
+    padding: 25px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Garis pemisah lebih tipis */
+    transition: background-color 0.3s, padding-left 0.3s;
+}
+
+/* Hilangkan garis pemisah pada item terakhir */
+.fitur-item:last-child {
+    border-bottom: none;
+}
+
+.fitur-item:hover {
+    background-color: rgba(255, 255, 255, 0.03); /* Hover yang lebih halus */
+    padding-left: 10px;
+}
+
+.fitur-text h2 {
+    font-size: 1.2rem; /* Ukuran judul fitur sedikit dikurangi */
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.fitur-text p {
+    font-size: 0.95rem; /* Paragraf lebih ringkas */
+    line-height: 1.5;
+    opacity: 0.7;
+}
+
+/* Hapus styling tombol yang tidak terpakai */
+.penjelasan-button {
+    display: none;
+}
+
+/* ================================================= */
+/* MEDIA QUERY: RESPONSIVENESS (Layar Kecil/HP)      */
+/* ================================================= */
+
+@media (max-width: 900px) {
+
+    /* 1. Kontainer Utama: Membuat Kolom Bertumpuk */
+    .penjelasan-content {
+        /* Memaksa elemen anak (kiri & kanan) bertumpuk secara vertikal */
+        flex-direction: column;
+        align-items: center; /* Menyentrikan blok konten */
+        gap: 50px; /* Jarak antara blok Judul dan blok Fitur */
+        max-width: 600px;
+    }
+
+    /* 2. Kolom Kiri (Judul) */
+    .penjelasan-kiri {
+        /* Mengambil lebar penuh kontainer */
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
+
+        /* Agar judul tetap di tengah, bukan ke atas/bawah */
+        align-items: flex-start; /* Mengembalikan flex ke atas agar judul tidak float */
+
+        /* Judul harusnya sejajar kiri di mode HP */
+        text-align: left;
+    }
+
+    .penjelasan-kiri h1 {
+        font-size: 2.5rem; /* Ukuran Judul dikurangi di HP */
+        text-align: center; /* Biarkan judul utama di tengah */
+        width: 100%;
+    }
+
+
+    /* 3. Kolom Kanan (Fitur) */
+    .penjelasan-kanan {
+        /* Mengambil lebar penuh */
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
+        padding-top: 0;
+    }
+
+    /* Menjaga agar teks fitur tetap mudah dibaca */
+    .penjelasan-tagline {
+        text-align: center;
+        padding: 0 10px;
+    }
+
+    .fitur-item {
+        padding: 15px 0; /* Padding vertikal dikurangi */
+    }
+
+    .fitur-text h2 {
+        font-size: 1.1rem;
+    }
+
+    .fitur-text p {
+        font-size: 0.9rem;
+    }
+}
