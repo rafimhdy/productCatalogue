@@ -27,11 +27,36 @@ export const sendVerificationEmail = async (to, token) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Verification email sent to:", to);
+    // Test transporter connection first
+    await transporter.verify();
+    console.log("SMTP connection successful");
+
+    const result = await transporter.sendMail(mailOptions);
+    console.log(
+      "Verification email sent to:",
+      to,
+      "Message ID:",
+      result.messageId
+    );
+    return result;
   } catch (error) {
-    console.error("Error sending verification email:", error);
-    throw new Error("Failed to send verification email");
+    console.error("Error sending verification email:", error.message);
+    console.error("Full error:", error);
+
+    // More specific error messages
+    if (error.code === "EAUTH") {
+      throw new Error(
+        "Email authentication failed. Check EMAIL_USER and EMAIL_PASS in .env"
+      );
+    } else if (error.code === "ECONNREFUSED") {
+      throw new Error(
+        "Cannot connect to Gmail SMTP. Check firewall/network settings"
+      );
+    } else if (error.code === "ETIMEDOUT") {
+      throw new Error("SMTP connection timeout. Check internet connection");
+    } else {
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
   }
 };
 
