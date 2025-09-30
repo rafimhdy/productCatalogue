@@ -79,7 +79,7 @@ const OrderListAdmin = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/orders/admin/all", {
+            const response = await fetch("http://31.97.109.187:5000/api/orders/admin/all", {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -104,7 +104,7 @@ const OrderListAdmin = () => {
         if (orderItems[orderId]) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/orders/admin/${orderId}/items`, {
+            const response = await fetch(`http://31.97.109.187:5000/api/orders/admin/${orderId}/items`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -209,7 +209,7 @@ const OrderListAdmin = () => {
 
             const databaseStatus = statusMapping[newStatus] || newStatus;
 
-            const response = await fetch(`http://localhost:5000/api/orders/admin/${orderId}/status`, {
+            const response = await fetch(`http://31.97.109.187:5000/api/orders/admin/${orderId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -447,7 +447,7 @@ const OrderListAdmin = () => {
                                                     <div key={item.id} className="order-item">
                                                         {item.product_image ? (
                                                             <img
-                                                                src={`http://localhost:5000/uploads/${item.product_image}`}
+                                                                src={`http://31.97.109.187:5000/uploads/${item.product_image}`}
                                                                 alt={item.product_name}
                                                                 className="item-image"
                                                             />

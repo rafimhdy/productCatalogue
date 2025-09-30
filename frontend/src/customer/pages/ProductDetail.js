@@ -33,7 +33,7 @@ const ProductDetail = () => {
 
   const fetchProductDetails = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`);
+      const response = await fetch(`http://31.97.109.187:5000/api/products/${id}`);
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
@@ -52,7 +52,7 @@ const ProductDetail = () => {
   const fetchProductReviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/reviews/product/${id}`
+        `http://31.97.109.187:5000/api/reviews/product/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -68,7 +68,7 @@ const ProductDetail = () => {
   const fetchRatingSummary = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/reviews/summary/${id}`
+        `http://31.97.109.187:5000/api/reviews/summary/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -88,7 +88,7 @@ const ProductDetail = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/cart", {
+      const response = await fetch("http://31.97.109.187:5000/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

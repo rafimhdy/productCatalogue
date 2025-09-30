@@ -6,7 +6,7 @@ const CategoryListAdmin = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/categories");
+      const res = await axios.get("http://31.97.109.187:5000/api/categories");
       setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -20,7 +20,7 @@ const CategoryListAdmin = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Yakin mau hapus kategori?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/categories/${id}`);
+        await axios.delete(`http://31.97.109.187:5000/api/categories/${id}`);
         fetchCategories();
       } catch (err) {
         console.error(err);

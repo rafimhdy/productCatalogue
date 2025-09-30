@@ -17,7 +17,7 @@ const CustomerLogin = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/customers/login", {
+      const res = await fetch("http://31.97.109.187:5000/api/customers/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

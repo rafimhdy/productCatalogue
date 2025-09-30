@@ -74,7 +74,7 @@ const CustomerListAdmin = () => {
       if (!token) throw new Error("No authentication token found");
 
       const response = await fetch(
-        "http://localhost:5000/api/customers/admin/all",
+        "http://31.97.109.187:5000/api/customers/admin/all",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -101,7 +101,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/orders/admin/customer/${customerId}`,
+        `http://31.97.109.187:5000/api/orders/admin/customer/${customerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -125,7 +125,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/customers/admin/${customerId}/details`,
+        `http://31.97.109.187:5000/api/customers/admin/${customerId}/details`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -148,7 +148,7 @@ const CustomerListAdmin = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/customers/admin/${customerId}/login-history`,
+        `http://31.97.109.187:5000/api/customers/admin/${customerId}/login-history`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -60,7 +60,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
   useEffect(() => {
     if (!product?.order_id) {
       // fetch eligible orders when modal opens for direct product view
-      fetch(`http://localhost:5000/api/reviews/can-review/${product.id}`, {
+      fetch(`http://31.97.109.187:5000/api/reviews/can-review/${product.id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
         .then((res) => res.json())
@@ -90,7 +90,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
   const fetchProductReviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/reviews/product/${product.id}`
+        `http://31.97.109.187:5000/api/reviews/product/${product.id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -181,7 +181,7 @@ const ProductDetailModal = ({ product, onClose, onReviewSubmit }) => {
           src={
             product.image_url.startsWith("http")
               ? product.image_url
-              : `http://localhost:5000/uploads/${product.image_url}`
+              : `http://31.97.109.187:5000/uploads/${product.image_url}`
           }
           alt={product.name}
           className="main-image"

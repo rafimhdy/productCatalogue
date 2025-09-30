@@ -8,7 +8,7 @@ const AddCategoryForm = ({ onCategoryAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/categories", {
+      await axios.post("http://31.97.109.187:5000/api/categories", {
         name,
         description,
       });

@@ -25,7 +25,7 @@ const StarRating = ({ productId, onReviewSubmitted }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/reviews/can-review/${productId}`,
+        `http://31.97.109.187:5000/api/reviews/can-review/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const StarRating = ({ productId, onReviewSubmitted }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

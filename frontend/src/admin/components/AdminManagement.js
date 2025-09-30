@@ -20,7 +20,7 @@ const AdminManagement = () => {
   const fetchAdmins = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/admin/all", {
+      const response = await fetch("http://31.97.109.187:5000/api/admin/all", {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const AdminManagement = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/admin/create", formData, {
+      await axios.post("http://31.97.109.187:5000/api/admin/create", formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setShowAddModal(false);
@@ -77,7 +77,7 @@ const AdminManagement = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/admin/${selectedAdmin.id}`,
+        `http://31.97.109.187:5000/api/admin/${selectedAdmin.id}`,
         formData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +99,7 @@ const AdminManagement = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/admin/${adminId}`, {
+      await axios.delete(`http://31.97.109.187:5000/api/admin/${adminId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchAdmins();

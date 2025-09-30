@@ -66,7 +66,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/products");
+      const res = await fetch("http://31.97.109.187:5000/api/products");
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setProducts(items);
@@ -78,7 +78,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/orders/admin/all", {
+      const res = await fetch("http://31.97.109.187:5000/api/orders/admin/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
   const fetchCustomers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/customers/admin/all", {
+      const res = await fetch("http://31.97.109.187:5000/api/customers/admin/all", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/categories");
+      const res = await fetch("http://31.97.109.187:5000/api/categories");
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setCategories(items);

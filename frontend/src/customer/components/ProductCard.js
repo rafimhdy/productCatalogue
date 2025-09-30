@@ -44,7 +44,7 @@ const ProductCard = ({
       if (!token) return;
 
       const response = await fetch(
-        `http://localhost:5000/api/wishlist/check/${product.id}`,
+        `http://31.97.109.187:5000/api/wishlist/check/${product.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -75,8 +75,8 @@ const ProductCard = ({
 
     try {
       const url = isInWishlist
-        ? `http://localhost:5000/api/wishlist/remove/${product.id}`
-        : `http://localhost:5000/api/wishlist/add`;
+        ? `http://31.97.109.187:5000/api/wishlist/remove/${product.id}`
+        : `http://31.97.109.187:5000/api/wishlist/add`;
 
       const method = isInWishlist ? "DELETE" : "POST";
       const body = isInWishlist
@@ -122,7 +122,7 @@ const ProductCard = ({
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch("http://31.97.109.187:5000/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const ProductCard = ({
         <img
           src={
             product.image
-              ? `http://localhost:5000/uploads/${product.image}`
+              ? `http://31.97.109.187:5000/uploads/${product.image}`
               : product.image_url
           }
           alt={product.name}

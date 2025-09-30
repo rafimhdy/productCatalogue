@@ -29,7 +29,7 @@ const PaymentPage = () => {
 
         try {
             // Fetch order details
-            const response = await axios.get(`http://localhost:5000/api/orders/details/${orderId}`, {
+            const response = await axios.get(`http://31.97.109.187:5000/api/orders/details/${orderId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -98,7 +98,7 @@ Please provide payment instructions. Thank you!
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/orders/create-payment',
+            const response = await axios.post('http://31.97.109.187:5000/api/orders/create-payment',
                 { orderId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

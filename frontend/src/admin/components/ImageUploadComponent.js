@@ -28,7 +28,7 @@ const ImageUploadComponent = ({ onImageUploaded }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/products/upload-image",
+        "http://31.97.109.187:5000/api/products/upload-image",
         {
           method: "POST",
           body: formData,

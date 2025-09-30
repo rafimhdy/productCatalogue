@@ -126,7 +126,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/products/upload-image",
+        "http://31.97.109.187:5000/api/products/upload-image",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -190,7 +190,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/products", productData);
+      await axios.post("http://31.97.109.187:5000/api/products", productData);
 
       // Reset form
       setFormData({
@@ -475,7 +475,7 @@ const AddProductForm = ({ onProductAdded, categories }) => {
                     {imageUrl && (
                       <div className="image-preview">
                         <img
-                          src={`http://localhost:5000/uploads/${imageUrl}`}
+                          src={`http://31.97.109.187:5000/uploads/${imageUrl}`}
                           alt="Preview"
                           className="preview-image"
                         />

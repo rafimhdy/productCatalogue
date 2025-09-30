@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/api/orders/details/${orderId}`, {
+                const response = await axios.get(`http://31.97.109.187:5000/api/orders/details/${orderId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setOrderDetails(response.data);

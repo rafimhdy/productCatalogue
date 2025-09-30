@@ -60,7 +60,7 @@ const ProductList = ({ showSearch = false }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products");
+      const res = await axios.get("http://31.97.109.187:5000/api/products");
       setProducts(res.data);
       setFilteredProducts(res.data);
       setLoading(false);
@@ -80,7 +80,7 @@ const ProductList = ({ showSearch = false }) => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/categories");
+      const res = await axios.get("http://31.97.109.187:5000/api/categories");
       setCategories(res.data);
     } catch (err) {
       console.error(err);
@@ -144,7 +144,7 @@ const ProductList = ({ showSearch = false }) => {
       return false;
     }
     try {
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

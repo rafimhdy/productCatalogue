@@ -28,7 +28,7 @@ const ProductReviews = ({ productId }) => {
   const fetchReviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/reviews/product/${productId}`
+        `http://31.97.109.187:5000/api/reviews/product/${productId}`
       );
       const data = await response.json();
       setReviews(data || []);
@@ -40,7 +40,7 @@ const ProductReviews = ({ productId }) => {
   const fetchReviewStats = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/reviews/summary/${productId}`
+        `http://31.97.109.187:5000/api/reviews/summary/${productId}`
       );
       const data = await response.json();
       // Normalize shape: ensure averageRating, totalReviews, ratingDistribution present
@@ -101,7 +101,7 @@ const ProductReviews = ({ productId }) => {
     if (!token) return;
 
     try {
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch("http://31.97.109.187:5000/api/orders", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -124,7 +124,7 @@ const ProductReviews = ({ productId }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

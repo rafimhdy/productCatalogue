@@ -76,7 +76,7 @@ const CustomerDashboard = () => {
 
       // Fetch customer data
       const customerResponse = await fetch(
-        "http://localhost:5000/api/customers/profile",
+        "http://31.97.109.187:5000/api/customers/profile",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -96,7 +96,7 @@ const CustomerDashboard = () => {
 
       // Fetch categories
       const categoriesResponse = await fetch(
-        "http://localhost:5000/api/categories"
+        "http://31.97.109.187:5000/api/categories"
       );
       if (categoriesResponse.ok) {
         const categoriesData = await categoriesResponse.json();
@@ -105,7 +105,7 @@ const CustomerDashboard = () => {
 
       // Fetch wishlist
       const wishlistResponse = await fetch(
-        "http://localhost:5000/api/wishlist",
+        "http://31.97.109.187:5000/api/wishlist",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -127,7 +127,7 @@ const CustomerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/customers/profile",
+        "http://31.97.109.187:5000/api/customers/profile",
         {
           method: "PUT",
           headers: {
@@ -160,7 +160,7 @@ const CustomerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/customers/change-password",
+        "http://31.97.109.187:5000/api/customers/change-password",
         {
           method: "PUT",
           headers: {
@@ -194,7 +194,7 @@ const CustomerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/wishlist/${productId}`,
+        `http://31.97.109.187:5000/api/wishlist/${productId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -377,7 +377,7 @@ const CustomerDashboard = () => {
                   const imageUrl = item.image_url
                     ? item.image_url.startsWith("http")
                       ? item.image_url
-                      : `http://localhost:5000/uploads/${item.image_url}`
+                      : `http://31.97.109.187:5000/uploads/${item.image_url}`
                     : "https://via.placeholder.com/300x200?text=No+Image";
                   const description =
                     item.description ||

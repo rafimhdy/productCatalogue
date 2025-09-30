@@ -60,7 +60,7 @@ const Register = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google-login",
+        "http://31.97.109.187:5000/api/auth/google-login",
         { idToken }
       );
       const data = res.data;
@@ -85,7 +85,7 @@ const Register = () => {
     setError("");
 
     try {
-      await axios.post("http://localhost:5000/api/customers/register", {
+      await axios.post("http://31.97.109.187:5000/api/customers/register", {
         name,
         email,
         password,

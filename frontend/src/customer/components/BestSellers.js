@@ -21,7 +21,7 @@ const BestSellers = () => {
   const fetchBestSellers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/best-sellers?limit=3"
+        "http://31.97.109.187:5000/api/best-sellers?limit=3"
       ); // Only fetch 3 products
       if (response.ok) {
         const data = await response.json();
@@ -57,7 +57,7 @@ const BestSellers = () => {
       return false;
     }
     try {
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const BestSellers = () => {
     }
     try {
       setAddingToCartId(product.id);
-      const res = await fetch("http://localhost:5000/api/cart", {
+      const res = await fetch("http://31.97.109.187:5000/api/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -211,7 +211,7 @@ const BestSellers = () => {
               product.image_url
                 ? product.image_url.startsWith("http")
                   ? product.image_url
-                  : `http://localhost:5000/uploads/${product.image_url}`
+                  : `http://31.97.109.187:5000/uploads/${product.image_url}`
                 : "/placeholder-product.jpg"
             }
             alt={product.name}

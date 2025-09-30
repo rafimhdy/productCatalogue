@@ -61,7 +61,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google-login",
+        "http://31.97.109.187:5000/api/auth/google-login",
         { idToken }
       );
       const data = res.data;
@@ -87,7 +87,7 @@ const Login = () => {
 
     try {
       // Try admin login first
-      const adminRes = await fetch("http://localhost:5000/api/auth/login", {
+      const adminRes = await fetch("http://31.97.109.187:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -108,7 +108,7 @@ const Login = () => {
 
       // If not admin, try customer login
       const customerRes = await fetch(
-        "http://localhost:5000/api/customers/login",
+        "http://31.97.109.187:5000/api/customers/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

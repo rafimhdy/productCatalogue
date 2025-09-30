@@ -35,7 +35,7 @@ const CustomerOrderHistory = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch("http://31.97.109.187:5000/api/orders", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -62,7 +62,7 @@ const CustomerOrderHistory = () => {
     setCancellingId(orderId);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/orders/${orderId}/cancel`,
+        `http://31.97.109.187:5000/api/orders/${orderId}/cancel`,
         {
           method: "PATCH",
           headers: {
@@ -95,7 +95,7 @@ const CustomerOrderHistory = () => {
   const fetchOrderDetails = async (orderId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/orders/admin/${orderId}/items`,
+        `http://31.97.109.187:5000/api/orders/admin/${orderId}/items`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -184,7 +184,7 @@ const CustomerOrderHistory = () => {
 
       console.log("Request body being sent:", requestBody);
 
-      const response = await fetch("http://localhost:5000/api/reviews", {
+      const response = await fetch("http://31.97.109.187:5000/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
