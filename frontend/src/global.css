@@ -1,50 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 :root {
-    --main-color: #29394f;
-    --main-color-2: #29394f;
-    --main-blue-hover: #485377;
-    --product-list-item-bg: #16263c;
-    --main-active: #041429;
-    --text-color-dark: #222935;
-    --main-box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    /* Shared homepage gradient tokens (from ParallaxHero) */
-    --home-gradient-radial: radial-gradient(circle at 30% 30%, #eef2ff, #dbeafe 40%, #bfdbfe 70%);
+  --main-color: #29394f;
+  --main-color-2: #29394f;
+  --main-blue-hover: #485377;
+  --product-list-item-bg: #16263c;
+  --main-active: #041429;
+  --text-color-dark: #222935;
+  --main-box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  --home-gradient-radial: radial-gradient(
+    circle at 30% 30%,
+    #eef2ff,
+    #dbeafe 40%,
+    #bfdbfe 70%
+  );
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html, body {
-    font-family: 'Rubik', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    scroll-behavior: smooth;
+html,
+body {
+  font-family: "Rubik", sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  scroll-behavior: smooth;
 
-    background: linear-gradient(
-            to bottom,
-                /* Baris Atas: Kiri Putih, Kanan Biru */
-            #eef2ff 0%, #bfdbfe 0%,
-                /* Baris Bawah: Kiri Biru, Kanan Putih */
-            #bfdbfe 50%, #eef2ff 100%
-
-    );
+  background: linear-gradient(
+    to bottom,
+    /* Baris Atas: Kiri Putih, Kanan Biru */ #eef2ff 0%,
+    #bfdbfe 0%,
+    /* Baris Bawah: Kiri Biru, Kanan Putih */ #bfdbfe 50%,
+    #eef2ff 100%
+  );
 }
 
 h1, h2, h3, h4,
 .brand, /* Logo Navbar */
 .nav-link, /* Menu Links */
-.btn, /* Tombol */
+.btn,
 .page-header-title {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 600; /* Atau 600 untuk link agar tidak terlalu tebal */
-    letter-spacing: -0.2px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 600; /* Atau 600 untuk link agar tidak terlalu tebal */
+  letter-spacing: -0.2px;
 }
 
 /* Pastikan input field menggunakan font yang sama dengan body text */
@@ -53,67 +56,55 @@ input,
 select,
 textarea,
 .input-field {
-    /* Kunci: Terapkan font-family secara eksplisit pada elemen form */
-    font-family: 'Rubik', sans-serif !important;
-
-    /* Gunakan !important jika ada library lain yang menimpa */
-
-    /* Juga perbaiki ukuran dan tinggi agar terlihat modern */
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #333;
+  font-family: "Rubik", sans-serif !important;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
 }
 
-/* Jika Anda memiliki placeholder, target placeholder-nya juga */
 .input-field::placeholder {
-    font-family: 'Rubik', sans-serif;
-    opacity: 0.7; /* Membuat placeholder lebih lembut */
+  font-family: "Rubik", sans-serif;
+  opacity: 0.7;
 }
 
-/* Terapkan font pada tombol dan tautan yang spesifik */
 .auth-button,
 .auth-link,
 .auth-link a,
 .auth-link .auth-link,
-.auth-link > a, /* Menargetkan tautan di dalam auth-link */
+.auth-link > a,
 .auth-link > span,
 .auth-link span,
 .auth-link div,
 .auth-link a,
 .auth-link a:link,
 .auth-link a:visited {
-    /* KUNCI: Terapkan font-family secara eksplisit */
-    font-family: 'Rubik', sans-serif !important;
-
-    /* Pastikan warna tetap bagus (jika perlu) */
-    color: inherit;
+  font-family: "Rubik", sans-serif !important;
+  color: inherit;
 }
 
 /* Menargetkan div info di bagian bawah */
-.auth-page-info { /* Asumsi class ini untuk div info */
-    font-family: 'Rubik', sans-serif;
-    line-height: 1.4;
+.auth-page-info {
+  /* Asumsi class ini untuk div info */
+  font-family: "Rubik", sans-serif;
+  line-height: 1.4;
 }
 
 /* Jika Anda tidak memiliki class di div info, gunakan styling ini: */
 div[style*="font-size: 12px"] {
-    font-family: 'Rubik', sans-serif !important;
+  font-family: "Rubik", sans-serif !important;
 }
 
 /* Pastikan semua tombol memiliki font Rubik */
 button {
-    font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 body.cart-bg-override {
-    /* Menimpa background gradasi dan menjadikannya putih solid */
-    background: white !important;
-
-    /* Penting: Pastikan properti background lain di-reset */
-    background-image: none !important;
-    background-blend-mode: normal !important;
+  background: white !important;
+  background-image: none !important;
+  background-blend-mode: normal !important;
 }
 
 body.cart-bg-override {
-    min-height: 100vh;
+  min-height: 100vh;
 }

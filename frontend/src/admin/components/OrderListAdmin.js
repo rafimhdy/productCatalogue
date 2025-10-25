@@ -665,7 +665,8 @@ export default OrderListAdmin;
   .order-header h2 {
     margin: 0;
     font-size: 24px;
-    color: #333;
+    color: #234b85 !important;
+    opacity: 1 !important;
     display: flex;
     align-items: center;
     gap: 10px;

@@ -1,4 +1,3 @@
-/* Fix for category dropdown text color issues */
 .form-control {
   color: #334155 !important; /* Dark text color to ensure visibility */
 }
@@ -18,14 +17,12 @@ select.form-control option {
   background: white;
 }
 
-/* Fix for category checkboxes in customer dashboard */
 .category-checkbox label {
   color: #334155 !important;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
-/* Button color fixes */
 .file-upload-label {
   color: white !important;
 }
@@ -34,8 +31,6 @@ select.form-control option {
   color: white !important;
 }
 
-/* For order management text */
-/* Removed stray lone slash and added optional light text theme */
 .order-management.order-management--lighttext,
 .order-management.order-management--lighttext h1,
 .order-management.order-management--lighttext h2,
@@ -59,59 +54,79 @@ select.form-control option {
   border-color: #334155;
 }
 
-.order-management.order-management--lighttext .btn-primary { background: linear-gradient(135deg,#6366f1,#4338ca); }
-.order-management.order-management--lighttext .btn-outline { color:#fff; border-color:#64748b; }
-.order-management.order-management--lighttext .btn-outline:hover { background:#475569; }
+.order-management.order-management--lighttext .btn-primary {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+}
+.order-management.order-management--lighttext .btn-outline {
+  color: #fff;
+  border-color: #64748b;
+}
+.order-management.order-management--lighttext .btn-outline:hover {
+  background: #475569;
+}
 
-/* Override status badge text to remain readable */
-.order-management.order-management--lighttext .order-status.status-pending { background:#f59e0b; color:#fff !important; }
-.order-management.order-management--lighttext .order-status.status-confirmed { background:#2563eb; color:#fff !important; }
-.order-management.order-management--lighttext .order-status.status-shipped { background:#7c3aed; color:#fff !important; }
-.order-management.order.management--lighttext .order-status.status-delivered { background:#059669; color:#fff !important; }
-.order-management.order.management--lighttext .order-status.status-cancelled { background:#dc2626; color:#fff !important; }
+.order-management.order-management--lighttext .order-status.status-pending {
+  background: #f59e0b;
+  color: #fff !important;
+}
+.order-management.order-management--lighttext .order-status.status-confirmed {
+  background: #2563eb;
+  color: #fff !important;
+}
+.order-management.order-management--lighttext .order-status.status-shipped {
+  background: #7c3aed;
+  color: #fff !important;
+}
+.order-management.order.management--lighttext .order-status.status-delivered {
+  background: #059669;
+  color: #fff !important;
+}
+.order-management.order.management--lighttext .order-status.status-cancelled {
+  background: #dc2626;
+  color: #fff !important;
+}
 
 .order-management select,
 .order-management input {
-    color: #334155 !important;
+  color: #334155 !important;
 }
 
 .order-management .btn-primary,
 .order-management .status-shipped,
 .order-management .status-delivered,
 .order-management .status-cancelled {
-    color: white !important;
+  color: white !important;
 }
 
 /* Additional color fixes */
 select option {
-    color: #334155;
-    background-color: white;
+  color: #334155;
+  background-color: white;
 }
 
 .category-dropdown {
-    color: #334155;
-    background-color: white;
+  color: #334155;
+  background-color: white;
 }
 
 .form-label {
-    color: #334155 !important;
+  color: #334155 !important;
 }
 
 .file-upload-text {
-    color: white !important;
+  color: white !important;
 }
 
 /* Best Sellers rank badges */
 .rank-badge {
-    color: white !important;
+  color: white !important;
 }
 
 /* Mobile menu text fix */
 .mobile-nav-item {
-    color: #334155;
+  color: #334155;
 }
 
 .mobile-nav-item.active {
-    color: white !important;
+  color: white !important;
 }
-
