@@ -533,8 +533,15 @@ const ProductListAdmin = () => {
                       className="form-control"
                       placeholder="https://example.com/image.jpg"
                     />
-                    <small style={{ color: "#666", marginTop: "4px", display: "block" }}>
-                      Atau upload file baru di atas, atau masukkan URL gambar di sini
+                    <small
+                      style={{
+                        color: "#666",
+                        marginTop: "4px",
+                        display: "block",
+                      }}
+                    >
+                      Atau upload file baru di atas, atau masukkan URL gambar di
+                      sini
                     </small>
                   </div>
                 </div>
