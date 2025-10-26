@@ -3,6 +3,7 @@ import { AuthContext } from "../../AuthContext";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ProductDetailModal from "../components/ProductDetailModal";
 import {
   User,
   Heart,
@@ -30,6 +31,8 @@ const CustomerDashboard = () => {
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedWishlistProduct, setSelectedWishlistProduct] = useState(null);
+  const [showProductModal, setShowProductModal] = useState(false);
   const [showPassword, setShowPassword] = useState({
     current: false,
     new: false,
@@ -339,7 +342,19 @@ const CustomerDashboard = () => {
                             Hapus
                           </button>
                           <button
-                            onClick={() => navigate(`/product/${productId}`)}
+                            onClick={() => {
+                              const productData = {
+                                id: productId,
+                                name: name,
+                                price: item.price ?? item.product_price,
+                                image_url: item.image_url,
+                                description: description,
+                                stock: item.stock,
+                                category_id: item.category_id,
+                              };
+                              setSelectedWishlistProduct(productData);
+                              setShowProductModal(true);
+                            }}
                             className="btn btn-primary"
                           >
                             Lihat Detail
@@ -563,6 +578,18 @@ const CustomerDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Product Detail Modal */}
+      {showProductModal && selectedWishlistProduct && (
+        <ProductDetailModal
+          product={selectedWishlistProduct}
+          onClose={() => {
+            setShowProductModal(false);
+            setSelectedWishlistProduct(null);
+          }}
+        />
+      )}
+
       <Footer />
     </div>
   );
