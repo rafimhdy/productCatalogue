@@ -10,9 +10,7 @@ import {
   Lock,
   Mail,
   Phone,
-  Bell,
   ChevronDown,
-  Menu,
   X,
   Save,
   Eye,
@@ -23,11 +21,10 @@ import "./css/CustomerDashboard.css";
 const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
 
 const CustomerDashboard = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
   const [customerData, setCustomerData] = useState({});
-  const [categories, setCategories] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMobileNav, setShowMobileNav] = useState(false);
@@ -43,8 +40,6 @@ const CustomerDashboard = () => {
   const [profileForm, setProfileForm] = useState({
     name: "",
     phone: "",
-    newsletter_preference: false,
-    product_categories_preference: [],
   });
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
@@ -90,17 +85,7 @@ const CustomerDashboard = () => {
         setProfileForm({
           name: customerData.name || "",
           phone: customerData.phone || "",
-          newsletter_preference: customerData.newsletter_preference || false,
-          product_categories_preference:
-            customerData.product_categories_preference || [],
         });
-      }
-
-      // Fetch categories
-      const categoriesResponse = await fetch(`${API_BASE}/api/categories`);
-      if (categoriesResponse.ok) {
-        const categoriesData = await categoriesResponse.json();
-        setCategories(categoriesData);
       }
 
       // Fetch wishlist
@@ -273,64 +258,6 @@ const CustomerDashboard = () => {
                 />
               </div>
 
-              <div className="form-group">
-                <div className="checkbox-group">
-                  <input
-                    type="checkbox"
-                    id="newsletter"
-                    checked={profileForm.newsletter_preference}
-                    onChange={(e) =>
-                      setProfileForm({
-                        ...profileForm,
-                        newsletter_preference: e.target.checked,
-                      })
-                    }
-                  />
-                  <label htmlFor="newsletter">
-                    <Bell size={16} />
-                    Berlangganan newsletter
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Kategori Produk Favorit</label>
-                <div className="categories-grid">
-                  {categories.map((category) => (
-                    <div key={category.id} className="category-checkbox">
-                      <input
-                        type="checkbox"
-                        id={`category-${category.id}`}
-                        checked={profileForm.product_categories_preference.includes(
-                          category.id
-                        )}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setProfileForm({
-                              ...profileForm,
-                              product_categories_preference: [
-                                ...profileForm.product_categories_preference,
-                                category.id,
-                              ],
-                            });
-                          } else {
-                            setProfileForm({
-                              ...profileForm,
-                              product_categories_preference:
-                                profileForm.product_categories_preference.filter(
-                                  (id) => id !== category.id
-                                ),
-                            });
-                          }
-                        }}
-                      />
-                      <label htmlFor={`category-${category.id}`}>
-                        {category.category_name}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               <button type="submit" className="btn btn-primary">
                 <Save size={16} />

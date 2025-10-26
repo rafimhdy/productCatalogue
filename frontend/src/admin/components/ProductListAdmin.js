@@ -109,6 +109,7 @@ const ProductListAdmin = () => {
       category_id: product.category_id || "",
       description: product.description || "",
       image: product.image_url || product.image || "",
+      imageUrl: product.image_url || product.image || "",
     });
     setEditUploadProgress(0);
     setEditUploadError("");
@@ -515,6 +516,26 @@ const ProductListAdmin = () => {
                         <p className="error-text">{editUploadError}</p>
                       )}
                     </div>
+                  </div>
+                  <div className="form-group full-width">
+                    <label>Link Gambar (URL)</label>
+                    <input
+                      type="url"
+                      name="imageUrl"
+                      value={editForm.imageUrl || ""}
+                      onChange={(e) =>
+                        setEditForm({
+                          ...editForm,
+                          imageUrl: e.target.value,
+                          image: e.target.value,
+                        })
+                      }
+                      className="form-control"
+                      placeholder="https://example.com/image.jpg"
+                    />
+                    <small style={{ color: "#666", marginTop: "4px", display: "block" }}>
+                      Atau upload file baru di atas, atau masukkan URL gambar di sini
+                    </small>
                   </div>
                 </div>
                 <div className="form-actions">
