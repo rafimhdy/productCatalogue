@@ -194,7 +194,7 @@ export const verifyEmail = (req, res) => {
 // Admin endpoints
 export const getAllCustomers = (req, res) => {
   const q = req.query.q ? req.query.q.trim() : "";
-  let query = `SELECT id, name, email, created_at FROM customers`;
+  let query = `SELECT id, name, email, phone, created_at FROM customers`;
   let params = [];
   if (q) {
     query += ` WHERE name LIKE ? OR email LIKE ?`;
@@ -211,15 +211,15 @@ export const getAllCustomers = (req, res) => {
 };
 
 export const createCustomer = (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, phone, password } = req.body;
   if (!name || !email || !password) {
     return res
       .status(400)
       .json({ message: "Name, email, and password required" });
   }
   db.query(
-    "INSERT INTO customers (name, email, password, created_at) VALUES (?, ?, ?, NOW())",
-    [name, email, password],
+    "INSERT INTO customers (name, email, phone, password, created_at) VALUES (?, ?, ?, ?, NOW())",
+    [name, email, phone || null, password],
     (err, result) => {
       if (err) {
         console.error("Error creating customer:", err);
@@ -235,8 +235,8 @@ export const createCustomer = (req, res) => {
 
 export const updateCustomer = (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body;
-  if (!name && !email && !password) {
+  const { name, email, phone, password } = req.body;
+  if (!name && !email && !phone && !password) {
     return res.status(400).json({ message: "No fields to update" });
   }
   let fields = [];
@@ -248,6 +248,10 @@ export const updateCustomer = (req, res) => {
   if (email) {
     fields.push("email = ?");
     params.push(email);
+  }
+  if (phone !== undefined) {
+    fields.push("phone = ?");
+    params.push(phone);
   }
   if (password) {
     fields.push("password = ?");

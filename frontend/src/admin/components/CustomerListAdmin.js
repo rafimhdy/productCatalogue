@@ -3,26 +3,31 @@ import {
   Users,
   Search,
   Filter,
-  Eye,
   Edit3,
   Trash2,
   Plus,
   X,
-  Save,
   Mail,
   User,
   Phone,
   Calendar,
   ChevronLeft,
   ChevronRight,
-  ShoppingCart,
-  MapPin,
 } from "lucide-react";
 import "./css/CustomerAdmin.css";
 
 const API_BASE = process.env.REACT_APP_API_BASE || "http://31.97.109.187:5000";
 
+// Cache busting version - increment ini untuk force refresh
+const CACHE_VERSION = Date.now();
+
 const CustomerListAdmin = () => {
+  console.log(
+    "CustomerListAdmin component rendered at:",
+    new Date().toISOString(),
+    "Version:",
+    CACHE_VERSION
+  );
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,33 +35,36 @@ const CustomerListAdmin = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [customerOrders, setCustomerOrders] = useState([]);
-  const [loadingOrders, setLoadingOrders] = useState(false);
-  const [customerDetails, setCustomerDetails] = useState(null);
-  const [loginHistory, setLoginHistory] = useState([]);
-  const [loadingLoginHistory, setLoadingLoginHistory] = useState(false);
 
+  // CRUD states
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingCustomer, setEditingCustomer] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+
+  // Fetch customers on component mount
   useEffect(() => {
     fetchCustomers();
   }, []);
 
-  // Filter customers when search changes
+  // Filter customers based on search
   useEffect(() => {
-    let filtered = [...customers];
-
-    if (search) {
-      filtered = filtered.filter(
-        (customer) =>
-          customer.name?.toLowerCase().includes(search.toLowerCase()) ||
-          customer.email?.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
+    const filtered = customers.filter(
+      (customer) =>
+        customer.name.toLowerCase().includes(search.toLowerCase()) ||
+        customer.email.toLowerCase().includes(search.toLowerCase())
+    );
     setFilteredCustomers(filtered);
-    setCurrentPage(1);
-  }, [customers, search]);
+    setCurrentPage(1); // Reset to first page when search changes
+  }, [search, customers]);
 
   // Pagination calculations
   const indexOfLastCustomer = currentPage * itemsPerPage;
@@ -75,12 +83,19 @@ const CustomerListAdmin = () => {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No authentication token found");
 
-      const response = await fetch(`${API_BASE}/api/customers/admin/all`, {
-        headers: { Authorization: `Bearer ${token}` },
+      // Add cache-busting parameter
+      const url = `${API_BASE}/api/customers/admin/all?t=${Date.now()}`;
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Cache-Control": "no-cache, no-store, must-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || "Failed to fetch customers");
       }
 
@@ -95,105 +110,171 @@ const CustomerListAdmin = () => {
     }
   };
 
-  const fetchCustomerOrders = async (customerId) => {
-    setLoadingOrders(true);
+  const handleDeleteCustomer = async (customerId) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus customer ini?")) {
+      return;
+    }
+
+    setDeleting(true);
     try {
-      const token = localStorage.getItem("token");
       const response = await fetch(
-        `${API_BASE}/api/orders/admin/customer/${customerId}`,
+        `${API_BASE}/api/customers/admin/${customerId}?t=${Date.now()}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
         }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch customer orders");
+        if (response.status === 403) {
+          alert("Token kadaluarsa. Silakan login ulang sebagai admin.");
+          // Redirect to login or logout
+          window.location.href = "/admin/login";
+          return;
+        }
+        alert("Gagal menghapus customer");
+      } else {
+        setCustomers(
+          customers.filter((customer) => customer.id !== customerId)
+        );
+        alert("Customer berhasil dihapus");
       }
-
-      const data = await response.json();
-      setCustomerOrders(data);
-    } catch (err) {
-      console.error("Error fetching customer orders:", err);
-      setCustomerOrders([]);
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+      alert("Terjadi kesalahan saat menghapus customer");
     } finally {
-      setLoadingOrders(false);
+      setDeleting(false);
     }
   };
 
-  const fetchCustomerDetails = async (customerId) => {
+  const handleCreateCustomer = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setFormErrors({});
+
     try {
-      const token = localStorage.getItem("token");
       const response = await fetch(
-        `${API_BASE}/api/customers/admin/${customerId}/details`,
+        `${API_BASE}/api/customers/admin?t=${Date.now()}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+          body: JSON.stringify(formData),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch customer details");
-      }
-
       const data = await response.json();
-      setCustomerDetails(data);
-    } catch (err) {
-      console.error("Error fetching customer details:", err);
-      setCustomerDetails(null);
-    }
-  };
 
-  const fetchLoginHistory = async (customerId) => {
-    setLoadingLoginHistory(true);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_BASE}/api/customers/admin/${customerId}/login-history`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
+      if (response.ok) {
+        setShowCreateModal(false);
+        setFormData({ name: "", email: "", phone: "", password: "" });
+        fetchCustomers(); // Refresh the list
+        alert("Customer berhasil dibuat");
+      } else {
+        if (response.status === 403) {
+          alert("Token kadaluarsa. Silakan login ulang sebagai admin.");
+          window.location.href = "/admin/login";
+          return;
         }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch login history");
+        if (data.errors) {
+          setFormErrors(data.errors);
+        } else {
+          alert(data.message || "Gagal membuat customer");
+        }
       }
-
-      const data = await response.json();
-      setLoginHistory(data);
-    } catch (err) {
-      console.error("Error fetching login history:", err);
-      setLoginHistory([]);
+    } catch (error) {
+      console.error("Error creating customer:", error);
+      alert("Terjadi kesalahan saat membuat customer");
     } finally {
-      setLoadingLoginHistory(false);
+      setSaving(false);
     }
   };
 
-  const handleViewDetail = (customer) => {
-    setSelectedCustomer(customer);
-    setShowDetailModal(true);
-    fetchCustomerOrders(customer.id);
-    fetchCustomerDetails(customer.id);
-    fetchLoginHistory(customer.id);
-  };
-
-  const closeDetailModal = () => {
-    setShowDetailModal(false);
-    setSelectedCustomer(null);
-    setCustomerOrders([]);
-    setCustomerDetails(null);
-    setLoginHistory([]);
-  };
-
-  // Format date with time
-  const formatDateTime = (dateString) => {
-    if (!dateString) return "Belum pernah";
-
-    return new Date(dateString).toLocaleDateString("id-ID", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+  const handleEditCustomer = (customer) => {
+    setEditingCustomer(customer);
+    setFormData({
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone || "",
+      password: "",
     });
+    setShowEditModal(true);
+  };
+
+  const handleUpdateCustomer = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setFormErrors({});
+
+    try {
+      const updateData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+      };
+
+      // Only include password if it's provided
+      if (formData.password.trim()) {
+        updateData.password = formData.password;
+      }
+
+      const response = await fetch(
+        `${API_BASE}/api/customers/admin/${editingCustomer.id}?t=${Date.now()}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setShowEditModal(false);
+        setEditingCustomer(null);
+        setFormData({ name: "", email: "", phone: "", password: "" });
+        fetchCustomers(); // Refresh the list
+        alert("Customer berhasil diperbarui");
+      } else {
+        if (response.status === 403) {
+          alert("Token kadaluarsa. Silakan login ulang sebagai admin.");
+          window.location.href = "/admin/login";
+          return;
+        }
+        if (data.errors) {
+          setFormErrors(data.errors);
+        } else {
+          alert(data.message || "Gagal memperbarui customer");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating customer:", error);
+      alert("Terjadi kesalahan saat memperbarui customer");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({ name: "", email: "", phone: "", password: "" });
+    setFormErrors({});
+    setEditingCustomer(null);
   };
 
   // Format date
@@ -205,53 +286,6 @@ const CustomerListAdmin = () => {
       month: "long",
       day: "numeric",
     });
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  // Truncate user agent string for cleaner display
-  const formatUserAgent = (userAgent) => {
-    if (!userAgent) return "-";
-
-    // Extract browser and OS information
-    let browser = "Unknown";
-    let os = "Unknown";
-
-    if (userAgent.includes("Chrome")) {
-      browser = "Chrome";
-    } else if (userAgent.includes("Firefox")) {
-      browser = "Firefox";
-    } else if (userAgent.includes("Safari")) {
-      browser = "Safari";
-    } else if (userAgent.includes("Edge")) {
-      browser = "Edge";
-    } else if (userAgent.includes("MSIE") || userAgent.includes("Trident")) {
-      browser = "Internet Explorer";
-    }
-
-    if (userAgent.includes("Windows")) {
-      os = "Windows";
-    } else if (userAgent.includes("Mac")) {
-      os = "Mac OS";
-    } else if (userAgent.includes("Android")) {
-      os = "Android";
-    } else if (
-      userAgent.includes("iOS") ||
-      userAgent.includes("iPhone") ||
-      userAgent.includes("iPad")
-    ) {
-      os = "iOS";
-    } else if (userAgent.includes("Linux")) {
-      os = "Linux";
-    }
-
-    return `${browser} / ${os}`;
   };
 
   if (loading) {
@@ -331,6 +365,14 @@ const CustomerListAdmin = () => {
           <Filter size={16} />
           Reset Filter
         </button>
+
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="btn btn-success"
+        >
+          <Plus size={16} />
+          Tambah Customer
+        </button>
       </div>
 
       {/* Customers List */}
@@ -367,18 +409,26 @@ const CustomerListAdmin = () => {
                   )}
                   <p>
                     <Calendar size={14} />
-                    Bergabung: {formatDate(customer.created_at)}
+                    {formatDate(customer.created_at)}
                   </p>
                 </div>
               </div>
 
               <div className="customer-actions">
                 <button
-                  onClick={() => handleViewDetail(customer)}
-                  className="btn btn-primary btn-sm"
+                  onClick={() => handleEditCustomer(customer)}
+                  className="btn btn-warning btn-sm"
                 >
-                  <Eye size={14} />
-                  Detail
+                  <Edit3 size={14} />
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteCustomer(customer.id)}
+                  disabled={deleting}
+                  className="btn btn-danger btn-sm"
+                >
+                  <Trash2 size={14} />
+                  {deleting ? "Menghapus..." : "Hapus"}
                 </button>
               </div>
             </div>
@@ -442,173 +492,210 @@ const CustomerListAdmin = () => {
         </div>
       )}
 
-      {/* Customer Detail Modal */}
-      {showDetailModal && selectedCustomer && (
-        <div className="modal-overlay" onClick={closeDetailModal}>
-          <div
-            className="modal-content customer-detail-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
+      {/* Detail modal removed */}
+
+      {/* Create Customer Modal */}
+      {showCreateModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowCreateModal(false)}
+        >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Detail Customer</h3>
-              <button className="modal-close" onClick={closeDetailModal}>
+              <h3>Tambah Customer Baru</h3>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="modal-close-btn"
+              >
                 <X size={20} />
               </button>
             </div>
-            <div className="modal-body">
-              <div className="customer-detail-profile">
-                <div className="customer-detail-avatar">
-                  <User size={48} />
-                </div>
-                <div className="customer-detail-info">
-                  <h2 className="customer-detail-name">
-                    {selectedCustomer.name}
-                  </h2>
-                  <div className="customer-detail-meta">
-                    <span className="detail-badge">
-                      {selectedCustomer.deleted_at ? "Tidak Aktif" : "Aktif"}
-                    </span>
-                    <span className="detail-badge customer-id">
-                      ID: {selectedCustomer.id}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="customer-detail-grid">
-                <div className="detail-card">
-                  <h4 className="detail-card-title">
-                    <Mail size={18} />
-                    Informasi Kontak
-                  </h4>
-                  <div className="detail-card-content">
-                    <div className="detail-item">
-                      <span className="detail-label">Email</span>
-                      <span className="detail-value">
-                        {selectedCustomer.email}
-                      </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Telepon</span>
-                      <span className="detail-value">
-                        {selectedCustomer.phone || "-"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="detail-card">
-                  <h4 className="detail-card-title">
-                    <Calendar size={18} />
-                    Informasi Akun
-                  </h4>
-                  <div className="detail-card-content">
-                    <div className="detail-item">
-                      <span className="detail-label">Bergabung</span>
-                      <span className="detail-value">
-                        {formatDate(selectedCustomer.created_at)}
-                      </span>
-                    </div>
-                    <div className="detail-item">
-                      <span className="detail-label">Login Terakhir</span>
-                      <span className="detail-value">
-                        {selectedCustomer.last_login
-                          ? formatDate(selectedCustomer.last_login)
-                          : "Belum pernah login"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="customer-detail-section">
-                <h4 className="section-title">
-                  <ShoppingCart size={18} />
-                  Riwayat Pesanan ({customerOrders.length})
-                </h4>
-
-                {loadingOrders ? (
-                  <div className="loading-inline">
-                    <div className="spinner-small"></div>
-                    <span>Memuat riwayat pesanan...</span>
-                  </div>
-                ) : customerOrders.length === 0 ? (
-                  <p className="no-data-message">Belum ada pesanan</p>
-                ) : (
-                  <div className="order-history-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Tanggal</th>
-                          <th>Total</th>
-                          <th>Status</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {customerOrders.map((order) => (
-                          <tr key={order.id}>
-                            <td>#{order.id}</td>
-                            <td>{formatDate(order.created_at)}</td>
-                            <td>{formatCurrency(order.total_price)}</td>
-                            <td>
-                              <span className={`table-status ${order.status}`}>
-                                {order.status}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+            <form onSubmit={handleCreateCustomer} className="modal-body">
+              <div className="form-group">
+                <label>Nama Lengkap</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                  className={formErrors.name ? "error" : ""}
+                />
+                {formErrors.name && (
+                  <span className="error-text">{formErrors.name}</span>
                 )}
               </div>
 
-              <div className="customer-detail-section">
-                <h4 className="section-title">
-                  <User size={18} />
-                  Riwayat Login
-                </h4>
-
-                {loadingLoginHistory ? (
-                  <div className="loading-inline">
-                    <div className="spinner-small"></div>
-                    <span>Memuat riwayat login...</span>
-                  </div>
-                ) : loginHistory.length === 0 ? (
-                  <p className="no-data-message">Belum ada riwayat login</p>
-                ) : (
-                  <div className="login-history-table">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Tanggal</th>
-                          <th>Waktu</th>
-                          <th>IP Address</th>
-                          <th>Lokasi</th>
-                          <th>Perangkat</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {loginHistory.map((login, index) => (
-                          <tr key={index}>
-                            <td>{formatDate(login.timestamp)}</td>
-                            <td>
-                              {new Date(login.timestamp).toLocaleTimeString(
-                                "id-ID"
-                              )}
-                            </td>
-                            <td>{login.ip_address}</td>
-                            <td>{login.location || "-"}</td>
-                            <td>{formatUserAgent(login.user_agent)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                  className={formErrors.email ? "error" : ""}
+                />
+                {formErrors.email && (
+                  <span className="error-text">{formErrors.email}</span>
                 )}
               </div>
+
+              <div className="form-group">
+                <label>Nomor Telepon</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className={formErrors.phone ? "error" : ""}
+                />
+                {formErrors.phone && (
+                  <span className="error-text">{formErrors.phone}</span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  required
+                  className={formErrors.password ? "error" : ""}
+                />
+                {formErrors.password && (
+                  <span className="error-text">{formErrors.password}</span>
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCreateModal(false);
+                    resetForm();
+                  }}
+                  className="btn btn-outline"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="btn btn-success"
+                >
+                  {saving ? "Menyimpan..." : "Simpan"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Customer Modal */}
+      {showEditModal && (
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Edit Customer</h3>
+              <button
+                onClick={() => setShowEditModal(false)}
+                className="modal-close-btn"
+              >
+                <X size={20} />
+              </button>
             </div>
+            <form onSubmit={handleUpdateCustomer} className="modal-body">
+              <div className="form-group">
+                <label>Nama Lengkap</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  required
+                  className={formErrors.name ? "error" : ""}
+                />
+                {formErrors.name && (
+                  <span className="error-text">{formErrors.name}</span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                  className={formErrors.email ? "error" : ""}
+                />
+                {formErrors.email && (
+                  <span className="error-text">{formErrors.email}</span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Nomor Telepon</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className={formErrors.phone ? "error" : ""}
+                />
+                {formErrors.phone && (
+                  <span className="error-text">{formErrors.phone}</span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>
+                  Password Baru (kosongkan jika tidak ingin mengubah)
+                </label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className={formErrors.password ? "error" : ""}
+                />
+                {formErrors.password && (
+                  <span className="error-text">{formErrors.password}</span>
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEditModal(false);
+                    resetForm();
+                  }}
+                  className="btn btn-outline"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="btn btn-success"
+                >
+                  {saving ? "Menyimpan..." : "Perbarui"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

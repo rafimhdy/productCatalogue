@@ -80,9 +80,17 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE}/api/orders/admin/all`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${API_BASE}/api/orders/admin/all?t=${Date.now()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
+      );
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setOrders(items);
@@ -94,9 +102,17 @@ const AdminDashboard = () => {
   const fetchCustomers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE}/api/customers/admin/all`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${API_BASE}/api/customers/admin/all?t=${Date.now()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            Pragma: "no-cache",
+            Expires: "0",
+          },
+        }
+      );
       const data = await res.json();
       const items = Array.isArray(data) ? data : data.value || [];
       setCustomers(items);
@@ -398,7 +414,9 @@ const AdminDashboard = () => {
 
             {page === "orders" && <OrderListAdmin />}
 
-            {page === "customers" && <CustomerListAdmin />}
+            {page === "customers" && (
+              <CustomerListAdmin key={`customers-${Date.now()}`} />
+            )}
 
             {page === "settings" && <AdminSettingsTabs />}
           </div>
